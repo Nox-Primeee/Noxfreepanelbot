@@ -10,7 +10,14 @@
   [![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
   [![MongoDB](https://img.shields.io/badge/MongoDB-8.0.0-brightgreen?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
   [![Pterodactyl](https://img.shields.io/badge/Pterodactyl-1.0-orange?style=for-the-badge&logo=pterodactyl)](https://pterodactyl.io/)
+  <!-- En haut du README.md -->
+<div align="center">
   
+  [![Deploy](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/deploy.yml/badge.svg)](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/deploy.yml)
+  [![CI](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/ci.yml/badge.svg)](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/ci.yml)
+  [![CodeQL](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/codeql.yml/badge.svg)](https://github.com/Nox-Primeee/TeleGram-Bot/actions/workflows/codeql.yml)
+  
+</div>
   <p align="center">
     <b>🚀 The Ultimate Telegram Bot for Pterodactyl Panel Management</b><br>
     <i>with Coin System, Referral Program, and Advanced Admin Panel</i>
