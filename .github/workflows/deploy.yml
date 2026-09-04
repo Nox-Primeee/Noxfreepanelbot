@@ -1,0 +1,62 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Create deployment package
+      run: |
+        mkdir deploy
+        cp -r dist deploy/
+        cp -r src deploy/
+        cp package.json deploy/
+        cp package-lock.json deploy/
+        cp .env.example deploy/
+        cd deploy
+        npm ci --production
+        zip -r ../bot-deploy.zip .
+    
+    - name: Upload to server (via SSH)
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        source: "bot-deploy.zip"
+        target: "/home/${{ secrets.SERVER_USERNAME }}/deploy/"
+    
+    - name: Deploy on server
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          cd /home/${{ secrets.SERVER_USERNAME }}/deploy/
+          unzip -o bot-deploy.zip -d bot
+          cd bot
+          npm install --production
+          pm2 restart nox-bot || pm2 start dist/bot.js --name nox-bot
+          pm2 save
