@@ -1,22 +1,21 @@
-import axios from 'axios';
-import { config } from '../../config';
+const axios = require('axios');
+const config = require('../../config');
 
-export class PterodactylService {
-  private apiUrl: string;
-  private apiKey: string;
-
+class PterodactylService {
   constructor() {
     this.apiUrl = config.PTERODACTYL_URL;
     this.apiKey = config.PTERODACTYL_API_KEY;
   }
 
-  private headers = {
-    'Authorization': `Bearer ${this.apiKey}`,
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+  get headers() {
+    return {
+      'Authorization': `Bearer ${this.apiKey}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+  }
 
-  async createServer(userId: number, name: string, egg: string, memory: number) {
+  async createServer(userId, name, egg, memory) {
     try {
       const response = await axios.post(
         `${this.apiUrl}/api/client/servers`,
@@ -24,18 +23,17 @@ export class PterodactylService {
           name,
           user: userId.toString(),
           egg,
-          memory,
-          // ... autres paramètres
+          memory
         },
         { headers: this.headers }
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Pterodactyl API error: ${error}`);
+      throw new Error(`Pterodactyl API error: ${error.message}`);
     }
   }
 
-  async getServer(id: string) {
+  async getServer(id) {
     try {
       const response = await axios.get(
         `${this.apiUrl}/api/client/servers/${id}`,
@@ -43,7 +41,9 @@ export class PterodactylService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Pterodactyl API error: ${error}`);
+      throw new Error(`Pterodactyl API error: ${error.message}`);
     }
   }
 }
+
+module.exports = PterodactylService;
