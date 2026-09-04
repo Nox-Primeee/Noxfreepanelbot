@@ -1,6 +1,6 @@
-import { Markup } from 'telegraf';
+const { Markup } = require('telegraf');
 
-export const mainKeyboard = Markup.inlineKeyboard([
+const mainKeyboard = Markup.inlineKeyboard([
   [
     Markup.button.callback('💰 Solde', 'balance'),
     Markup.button.callback('📊 Serveurs', 'servers')
@@ -15,7 +15,7 @@ export const mainKeyboard = Markup.inlineKeyboard([
   ]
 ]);
 
-export const createServerKeyboard = Markup.inlineKeyboard([
+const createServerKeyboard = Markup.inlineKeyboard([
   [
     Markup.button.callback('🖥️ Minecraft', 'create_minecraft'),
     Markup.button.callback('🌐 Web', 'create_web')
@@ -27,7 +27,7 @@ export const createServerKeyboard = Markup.inlineKeyboard([
   [Markup.button.callback('🔙 Retour', 'back_main')]
 ]);
 
-export const adminKeyboard = Markup.inlineKeyboard([
+const adminKeyboard = Markup.inlineKeyboard([
   [
     Markup.button.callback('👥 Utilisateurs', 'admin_users'),
     Markup.button.callback('💰 Coins', 'admin_coins')
@@ -39,8 +39,15 @@ export const adminKeyboard = Markup.inlineKeyboard([
   [Markup.button.callback('🔙 Retour', 'back_main')]
 ]);
 
-export const referralKeyboard = Markup.inlineKeyboard([
+const referralKeyboard = Markup.inlineKeyboard([
   [Markup.button.callback('📤 Partager', 'share_referral')],
   [Markup.button.callback('📊 Mes parrainages', 'my_referrals')],
   [Markup.button.callback('🔙 Retour', 'back_main')]
 ]);
+
+module.exports = {
+  mainKeyboard,
+  createServerKeyboard,
+  adminKeyboard,
+  referralKeyboard
+};
