@@ -1,13 +1,11 @@
-import { Context } from 'telegraf';
-import User from '../../database/models/User';
-import Transaction from '../../database/models/Transaction';
-import { formatQuote, formatBold } from '../../utils/formatter';
-import { adminKeyboard } from '../../utils/keyboard';
-import { config } from '../../config';
+const User = require('../../database/models/User');
+const Transaction = require('../../database/models/Transaction');
+const { formatQuote, formatBold } = require('../../utils/formatter');
+const { adminKeyboard } = require('../../utils/keyboard');
+const config = require('../../config');
 
-export async function adminCommand(ctx: Context) {
-  // Vérifier si l'utilisateur est admin
-  if (ctx.from!.id !== config.ADMIN_ID) {
+async function adminCommand(ctx) {
+  if (ctx.from.id !== config.ADMIN_ID) {
     await ctx.reply(formatQuote('⛔ Accès réservé à l\'administrateur.'));
     return;
   }
@@ -35,8 +33,8 @@ export async function adminCommand(ctx: Context) {
   );
 }
 
-export async function adminUsers(ctx: Context) {
-  if (ctx.from!.id !== config.ADMIN_ID) return;
+async function adminUsers(ctx) {
+  if (ctx.from.id !== config.ADMIN_ID) return;
 
   const users = await User.find().sort({ createdAt: -1 }).limit(10);
   let message = `👥 <b>Derniers utilisateurs</b>\n\n`;
@@ -49,18 +47,17 @@ export async function adminUsers(ctx: Context) {
   await ctx.reply(formatQuote(message), { parse_mode: 'HTML' });
 }
 
-export async function adminCoins(ctx: Context) {
-  if (ctx.from!.id !== config.ADMIN_ID) return;
+async function adminCoins(ctx) {
+  if (ctx.from.id !== config.ADMIN_ID) return;
 
-  // Interface pour ajouter/retirer des coins
   await ctx.reply(
     formatQuote('💰 <b>Gestion des coins</b>\n\nUtilisez : /addcoins <id> <montant>'),
     { parse_mode: 'HTML' }
   );
 }
 
-export async function addCoinsCommand(ctx: Context) {
-  if (ctx.from!.id !== config.ADMIN_ID) return;
+async function addCoinsCommand(ctx) {
+  if (ctx.from.id !== config.ADMIN_ID) return;
 
   const args = ctx.message?.text?.split(' ') || [];
   if (args.length < 3) {
@@ -89,3 +86,10 @@ export async function addCoinsCommand(ctx: Context) {
     await ctx.reply(formatQuote(`❌ Erreur : ${error.message}`));
   }
 }
+
+module.exports = {
+  adminCommand,
+  adminUsers,
+  adminCoins,
+  addCoinsCommand
+};
