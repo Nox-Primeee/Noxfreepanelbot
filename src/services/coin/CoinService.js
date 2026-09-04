@@ -1,14 +1,14 @@
-import User, { IUser } from '../../database/models/User';
-import Transaction from '../../database/models/Transaction';
-import { config } from '../../config';
+const User = require('../../database/models/User');
+const Transaction = require('../../database/models/Transaction');
+const config = require('../../config');
 
-export class CoinService {
-  async getBalance(telegramId: number): Promise<number> {
+class CoinService {
+  async getBalance(telegramId) {
     const user = await User.findOne({ telegramId });
     return user?.coins || 0;
   }
 
-  async addCoins(telegramId: number, amount: number, description: string, type: 'earn' | 'referral' = 'earn') {
+  async addCoins(telegramId, amount, description, type = 'earn') {
     const user = await User.findOneAndUpdate(
       { telegramId },
       { $inc: { coins: amount } },
@@ -27,7 +27,7 @@ export class CoinService {
     return user.coins;
   }
 
-  async spendCoins(telegramId: number, amount: number, description: string) {
+  async spendCoins(telegramId, amount, description) {
     const user = await User.findOne({ telegramId });
     if (!user) throw new Error('User not found');
     if (user.coins < amount) throw new Error('Insufficient coins');
@@ -45,6 +45,8 @@ export class CoinService {
       description
     });
 
-    return updatedUser!.coins;
+    return updatedUser.coins;
   }
 }
+
+module.exports = CoinService;
