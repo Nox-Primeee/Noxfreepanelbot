@@ -3,19 +3,26 @@ const { mainKeyboard } = require('../../utils/keyboard');
 const config = require('../../config');
 
 async function helpCommand(ctx) {
-  let message = `❓ <b>Aide - ${config.BOT_NAME}</b>\n\n`;
-  message += `<b>Commandes disponibles :</b>\n`;
-  message += `📌 /start - Démarrer le bot\n`;
-  message += `💰 /balance - Voir votre solde\n`;
-  message += `🆕 /create - Créer un serveur\n`;
-  message += `🔗 /referral - Système de parrainage\n`;
-  message += `📊 /servers - Voir vos serveurs\n`;
-  message += `❓ /help - Cette aide\n\n`;
-  message += `<b>Système de coins :</b>\n`;
-  message += `🪙 ${config.SERVER_COST} coins = 1 serveur\n`;
-  message += `👥 ${config.COINS_PER_REFERRAL} coins par parrainage\n`;
-  message += `🎁 ${config.STARTING_COINS} coins de bienvenue\n\n`;
-  message += `📞 Support : @Nox-primeee`;
+  let message = `❓ <b>${config.BOT_NAME} Help</b>\n\n`;
+  message += `<b>📌 User Commands:</b>\n`;
+  message += `/menu - Main menu\n`;
+  message += `/coins - Check balance\n`;
+  message += `/daily - Claim daily (${config.DAILY_COINS}/day)\n`;
+  message += `/referral - Referral system\n`;
+  message += `/stats - Your statistics\n`;
+  message += `/profile - Your profile\n`;
+  message += `/myid - Your Telegram ID\n`;
+  message += `/buyserver - Buy a server\n`;
+  message += `/myservers - View your servers\n`;
+  message += `/shop - Shop\n`;
+  message += `/redeem - Use a code\n`;
+  message += `/leaderboard - Rankings\n\n`;
+  message += `<b>💰 Coin System:</b>\n`;
+  message += `🎁 Welcome: ${config.STARTING_COINS} coins\n`;
+  message += `📅 Daily: ${config.DAILY_COINS} coins\n`;
+  message += `👥 Referral: ${config.COINS_PER_REFERRAL} coins\n`;
+  message += `🖥️ Server: ${config.SERVER_COST} coins\n\n`;
+  message += `📞 <b>Support:</b> @NoxDm_bot`;
 
   await ctx.replyWithPhoto(
     { url: config.LOGO_URL },
