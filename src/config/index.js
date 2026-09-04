@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config();
+require('dotenv').config();
 
-export const config = {
+module.exports = {
   BOT_TOKEN: process.env.BOT_TOKEN || '',
   PTERODACTYL_URL: process.env.PTERODACTYL_URL || '',
   PTERODACTYL_API_KEY: process.env.PTERODACTYL_API_KEY || '',
@@ -13,6 +12,3 @@ export const config = {
   LOGO_URL: 'https://files.catbox.moe/cqk5ac.jpg',
   BOT_NAME: 'NOX FREEPANEL BOT'
 };
-
-// Export par défaut pour les imports
-export default config;
