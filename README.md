@@ -1,4 +1,4 @@
-https://files.catbox.moe/cqk5ac.jpg
+<a href="[${config.LOGO_URL}](https://files.catbox.moe/cqk5ac.jpg)">
 # Telegram Free Panel bot Script Open source Made by @Nox-primeee 
 
 # Pterodactyl Telegram Bot
