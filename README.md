@@ -49,14 +49,8 @@
   | 📝 **Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot?style=flat-square) |
   | 📦 **Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/TeleGram-Bot?style=flat-square) |
   | 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot?style=flat-square) |
-  
-</div> |
-
-| 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot) |
 | 👥 **Contributors** | ![GitHub contributors](https://img.shields.io/github/contributors/Nox-Primeee/TeleGram-Bot) |
-| 📝 **Open Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot) |
 | 📦 **Pull Requests** | ![GitHub pull requests](https://img.shields.io/github/issues-pr/Nox-Primeee/TeleGram-Bot) |
-| 🚦 **CI/CD Status** | ![GitHub Actions](https://img.shields.io/github/actions/workflow/status/Nox-Primeee/TeleGram-Bot/ci.yml?branch=main) |
 
 </div>
 
