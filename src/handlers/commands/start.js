@@ -1,18 +1,16 @@
-import { Context } from 'telegraf';
-import User from '../../database/models/User';
-import { ReferralService } from '../../services/referral/ReferralService';
-import { CoinService } from '../../services/coin/CoinService';
-import { formatQuote, formatWithLogo, formatBold } from '../../utils/formatter';
-import { mainKeyboard } from '../../utils/keyboard';
-import { config } from '../../config';
+const User = require('../../database/models/User');
+const ReferralService = require('../../services/referral/ReferralService');
+const CoinService = require('../../services/coin/CoinService');
+const { formatQuote, formatBold } = require('../../utils/formatter');
+const { mainKeyboard } = require('../../utils/keyboard');
+const config = require('../../config');
 
 const referralService = new ReferralService();
 const coinService = new CoinService();
 
-export async function startCommand(ctx: Context) {
-  const user = ctx.from!;
-  // ✅ CORRIGÉ - Vérification de text
-  const text = (ctx.message as any)?.text || '';
+async function startCommand(ctx) {
+  const user = ctx.from;
+  const text = ctx.message?.text || '';
   const args = text.split(' ');
   const referralCode = args[1];
 
@@ -41,11 +39,11 @@ export async function startCommand(ctx: Context) {
 
     if (referralCode) {
       try {
-        const result = await referralService.processReferral(user.id, referralCode);
+        await referralService.processReferral(user.id, referralCode);
         message += `\n\n🎉 <b>Parrainage réussi !</b>\n`;
         message += `💰 Vous avez reçu ${config.STARTING_COINS} coins de bienvenue.\n`;
         message += `👑 Votre parrain a reçu ${config.COINS_PER_REFERRAL} coins.`;
-      } catch (error: any) {
+      } catch (error) {
         message += `\n\n⚠️ Erreur lors du parrainage: ${error.message}`;
       }
     }
@@ -75,3 +73,5 @@ export async function startCommand(ctx: Context) {
     );
   }
 }
+
+module.exports = { startCommand };
