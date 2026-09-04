@@ -3,7 +3,7 @@
   
   # 🤖 NOX FREEPANEL BOT SCRIPT OPEN SOURCE 
   
-  [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue?style=for-the-badge&logo=telegram)](https://t.me/Noxhostingpanel_Bot)
+  [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue?style=for-the-badge&logo=telegram)](https://t.me/noxpanelhosting_bot)
   [![Version](https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge)](https://github.com/Nox-Primeee/TeleGram-Bot)
   [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
