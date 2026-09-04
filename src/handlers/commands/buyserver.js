@@ -1,19 +1,31 @@
 const CoinService = require('../../services/coin/CoinService');
-const ServerService = require('../../services/server/ServerService');
+const ServerService = require('../../services/server/ServerService'); // ✅ AJOUTÉ
 const { formatQuote, formatBold } = require('../../utils/formatter');
 const { serverKeyboard } = require('../../utils/keyboard');
 const config = require('../../config');
 
 const coinService = new CoinService();
-const serverService = new ServerService();
+const serverService = new ServerService(); // ✅ AJOUTÉ
 
 async function buyserverCommand(ctx) {
   try {
     const balance = await coinService.getBalance(ctx.from.id);
+    
+    // Vérifier si l'utilisateur peut créer un serveur
+    const canCreate = await serverService.canCreateServer(ctx.from.id);
+    
     let message = `🆕 <b>Buy a Server</b>\n\n`;
     message += `💰 Your balance : ${balance} coins\n`;
-    message += `💎 Price : ${config.SERVER_COST} coins\n\n`;
-    message += `<b>Available Plans:</b>\n`;
+    message += `💎 Price : ${config.SERVER_COST} coins\n`;
+    
+    if (!canCreate.allowed) {
+      message += `\n⚠️ ${canCreate.reason}\n`;
+    } else {
+      message += `\n📊 <b>Your Stats:</b>\n`;
+      message += `🖥️ Servers: ${canCreate.currentServers}/${canCreate.maxServers}\n`;
+    }
+    
+    message += `\n<b>Available Plans:</b>\n`;
     message += `🖥️ Free - 1 server - 1024MB\n`;
     message += `💎 Premium - 5 servers - 2048MB\n`;
     message += `👑 VIP - 10 servers - 4096MB\n`;
@@ -44,18 +56,31 @@ async function buyServerType(ctx, type) {
       return;
     }
 
+    // Vérifier si l'utilisateur peut créer un serveur
+    const canCreate = await serverService.canCreateServer(userId);
+    if (!canCreate.allowed) {
+      await ctx.reply(formatQuote(`⚠️ ${canCreate.reason}`));
+      return;
+    }
+
     if (balance < plan.price) {
       await ctx.reply(formatQuote(`⚠️ Insufficient balance!\n💰 Price: ${plan.price} coins\n🪙 Your balance: ${balance}`));
       return;
     }
 
+    // Créer le serveur
     const server = await serverService.createServer(userId, type, plan);
+    
+    // Déduire les coins
     await coinService.spendCoins(userId, plan.price, `Server purchase ${type}`);
 
     let message = `✅ <b>${type.charAt(0).toUpperCase() + type.slice(1)} server created!</b>\n\n`;
     message += `🆔 ID : ${server.serverId}\n`;
+    message += `📛 Name : ${server.name}\n`;
     message += `💾 RAM : ${plan.memory}MB\n`;
     message += `📦 Plan : ${plan.name}\n`;
+    message += `📊 Status : ${server.status}\n`;
+    message += `⏰ Expires : ${server.expiresAt.toLocaleDateString()}\n`;
     message += `💰 Remaining coins : ${await coinService.getBalance(userId)}`;
 
     await ctx.replyWithPhoto(
