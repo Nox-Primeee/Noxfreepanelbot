@@ -1,0 +1,50 @@
+name: Update Repository Stats
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Every day at midnight
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Update README with latest stats
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Get repo stats
+          const repo = await github.rest.repos.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          });
+          
+          const stats = {
+            stars: repo.data.stargazers_count,
+            forks: repo.data.forks_count,
+            watchers: repo.data.watchers_count,
+            issues: repo.data.open_issues_count
+          };
+          
+          // Update README
+          let readme = fs.readFileSync('README.md', 'utf8');
+          readme = readme.replace(/⭐ \d+/g, `⭐ ${stats.stars}`);
+          readme = readme.replace(/🍴 \d+/g, `🍴 ${stats.forks}`);
+          readme = readme.replace(/👁️ \d+/g, `👁️ ${stats.watchers}`);
+          readme = readme.replace(/📝 \d+/g, `📝 ${stats.issues}`);
+          
+          fs.writeFileSync('README.md', readme);
+    
+    - name: Commit and push changes
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add README.md
+        git commit -m "Update repository statistics" || echo "No changes to commit"
+        git push
