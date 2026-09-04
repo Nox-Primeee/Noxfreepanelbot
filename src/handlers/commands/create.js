@@ -69,4 +69,4 @@ async function createServerType(ctx, type) {
   }
 }
 
-module.exports = { createCommand, createServerType };ii
+module.exports = { createCommand, createServerType };
