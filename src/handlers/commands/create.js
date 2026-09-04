@@ -1,16 +1,15 @@
-import { Context } from 'telegraf';
-import { CoinService } from '../../services/coin/CoinService';
-import { PterodactylService } from '../../services/pterodactyl/PterodactylService';
-import { formatQuote, formatBold } from '../../utils/formatter';
-import { createServerKeyboard } from '../../utils/keyboard';
-import { config } from '../../config';
+const CoinService = require('../../services/coin/CoinService');
+const PterodactylService = require('../../services/pterodactyl/PterodactylService');
+const { formatQuote, formatBold } = require('../../utils/formatter');
+const { createServerKeyboard, mainKeyboard } = require('../../utils/keyboard');
+const config = require('../../config');
 
 const coinService = new CoinService();
 const pteroService = new PterodactylService();
 
-export async function createCommand(ctx: Context) {
+async function createCommand(ctx) {
   try {
-    const balance = await coinService.getBalance(ctx.from!.id);
+    const balance = await coinService.getBalance(ctx.from.id);
     let message = `🆕 <b>Création de serveur</b>\n\n`;
     message += `💰 Coins nécessaires : ${config.SERVER_COST}\n`;
     message += `🪙 Votre solde : ${balance}\n\n`;
@@ -29,13 +28,13 @@ export async function createCommand(ctx: Context) {
       }
     );
   } catch (error) {
-    await ctx.reply(formatQuote('❌ Erreur lors de la préparation de la création.'));
+    await ctx.reply(formatQuote(`❌ Erreur : ${error.message}`));
   }
 }
 
-export async function createServerType(ctx: Context, type: string) {
+async function createServerType(ctx, type) {
   try {
-    const userId = ctx.from!.id;
+    const userId = ctx.from.id;
     const balance = await coinService.getBalance(userId);
 
     if (balance < config.SERVER_COST) {
@@ -43,23 +42,19 @@ export async function createServerType(ctx: Context, type: string) {
       return;
     }
 
-    // Déduire les coins
     await coinService.spendCoins(userId, config.SERVER_COST, `Création serveur ${type}`);
 
-    // Créer le serveur via Pterodactyl
     const server = await pteroService.createServer(
       userId,
       `${type}-${Date.now()}`,
       type,
-      1024 // RAM par défaut
+      1024
     );
 
-    let message = `✅ <b>Server create successfully !</b>\n\n`;
+    let message = `✅ <b>Serveur créé avec succès !</b>\n\n`;
     message += `🖥️ Type : ${type}\n`;
-    message += `🆔 ID : ${server.id}\n`;
-    message += `🌐 IP : ${server.ip}\n`;
-    message += `🔑 Port : ${server.port}\n\n`;
-    message += `💰 Balance : ${await coinService.getBalance(userId)}`;
+    message += `🆔 ID : ${server.id || 'N/A'}\n`;
+    message += `💰 Coins restants : ${await coinService.getBalance(userId)}`;
 
     await ctx.replyWithPhoto(
       { url: config.LOGO_URL },
@@ -73,3 +68,5 @@ export async function createServerType(ctx: Context, type: string) {
     await ctx.reply(formatQuote(`❌ Erreur lors de la création : ${error.message}`));
   }
 }
+
+module.exports = { createCommand, createServerType };ii
