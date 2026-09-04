@@ -11,7 +11,8 @@ const coinService = new CoinService();
 
 export async function startCommand(ctx: Context) {
   const user = ctx.from!;
-  const text = ctx.message?.text || '';
+  // ✅ CORRIGÉ - Vérification de text
+  const text = (ctx.message as any)?.text || '';
   const args = text.split(' ');
   const referralCode = args[1];
 
@@ -29,23 +30,23 @@ export async function startCommand(ctx: Context) {
 
     await newUser.save();
 
-    let message = `<b> ${config.BOT_NAME}</b>\n\n`;
-    message += `👤 User: ${formatBold(user.first_name)}\n`;
-    message += `💰 Balance :${config.STARTING_COINS} coins.\n Support: @nox_chh\n\n`;
-    message += ` <b>COMMANDS</b>\n`;
-    message += `• /balance\n`;
-    message += `• /create \n`;
-    message += `• /referral \n`;
-    message += `• /help `;
+    let message = `🌟 <b>Bienvenue sur ${config.BOT_NAME} !</b>\n\n`;
+    message += `👤 ${formatBold(user.first_name)}, votre compte a été créé avec succès.\n`;
+    message += `💰 Vous avez reçu ${config.STARTING_COINS} coins de bienvenue.\n\n`;
+    message += `📌 <b>Commandes disponibles :</b>\n`;
+    message += `• /balance - Voir votre solde\n`;
+    message += `• /create - Créer un serveur\n`;
+    message += `• /referral - Système de parrainage\n`;
+    message += `• /help - Aide complète`;
 
     if (referralCode) {
       try {
         const result = await referralService.processReferral(user.id, referralCode);
-        message += `\n\n🎉 <b>New User Referrals!</b>\n`;
-        message += `💰 You receive ${config.STARTING_COINS} cois\n`;
-        message += ` Your Refer Receive: ${config.COINS_PER_REFERRAL} coins.`;
-      } catch (error) {
-        message += `\n\n⚠️ Error: ${error.message}`;
+        message += `\n\n🎉 <b>Parrainage réussi !</b>\n`;
+        message += `💰 Vous avez reçu ${config.STARTING_COINS} coins de bienvenue.\n`;
+        message += `👑 Votre parrain a reçu ${config.COINS_PER_REFERRAL} coins.`;
+      } catch (error: any) {
+        message += `\n\n⚠️ Erreur lors du parrainage: ${error.message}`;
       }
     }
 
@@ -59,10 +60,10 @@ export async function startCommand(ctx: Context) {
     );
   } else {
     const balance = await coinService.getBalance(user.id);
-    let message = `<b>User: ${user.first_name} !</b>\n\n`;
-    message += `💰 Balance: ${balance} coins\n`;
-    message += `🔗 Referral link: <code>${existingUser.referralCode}</code>\n\n`;
-    message += `Support: @nox_chh`;
+    let message = `👋 <b>Bonjour ${user.first_name} !</b>\n\n`;
+    message += `💰 Votre solde : ${balance} coins\n`;
+    message += `🔗 Code de parrainage : <code>${existingUser.referralCode}</code>\n\n`;
+    message += `📌 Que souhaitez-vous faire ?`;
 
     await ctx.replyWithPhoto(
       { url: config.LOGO_URL },
