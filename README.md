@@ -104,15 +104,6 @@
 ### Welcome Screen
 ![Welcome Screen](https://files.catbox.moe/cqk5ac.jpg)
 
-### Main Menu
-![Main Menu](https://files.catbox.moe/cqk5ac.jpg)
-
-### Admin Panel
-![Admin Panel](https://files.catbox.moe/cqk5ac.jpg)
-
-### Coin System
-![Coin System](https://files.catbox.moe/cqk5ac.jpg)
-
 </div>
 
 ---
