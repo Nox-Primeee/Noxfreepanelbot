@@ -39,4 +39,4 @@ async function profileCommand(ctx) {
   }
 }
 
-module.exports = { profileCommand };j
+module.exports = { profileCommand };
