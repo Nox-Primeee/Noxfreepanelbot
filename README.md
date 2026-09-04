@@ -1,68 +1,136 @@
-<a href="[${config.LOGO_URL}](https://files.catbox.moe/cqk5ac.jpg)">
+<div align="center">
+  <img src="https://files.catbox.moe/cqk5ac.jpg" alt="NOX FREEPANEL BOT" width="400" height="400">
   
-# Telegram Free Panel bot Script Open source Made by @Nox-primeee 
+  # 🤖 NOX FREEPANEL BOT SCRIPT OPEN SOURCE 
+  
+  [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue?style=for-the-badge&logo=telegram)](https://t.me/Noxhostingpanel_Bot)
+  [![Version](https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge)](https://github.com/Nox-Primeee/TeleGram-Bot)
+  [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+  [![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-8.0.0-brightgreen?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
+  [![Pterodactyl](https://img.shields.io/badge/Pterodactyl-1.0-orange?style=for-the-badge&logo=pterodactyl)](https://pterodactyl.io/)
+  
+  <p align="center">
+    <b>🚀 The Ultimate Telegram Bot for Pterodactyl Panel Management</b><br>
+    <i>with Coin System, Referral Program, and Advanced Admin Panel</i>
+  </p>
+</div>
 
-# Pterodactyl Telegram Bot
+---
 
-Un bot Telegram pour gérer un panel Pterodactyl avec système de coins et parrainage.
+## 📊 Repository Statistics
 
-## Fonctionnalités
+<div align="center">
 
-- 👤 Système d'utilisateurs avec base de données MongoDB
-- 💰 Système de coins pour les serveurs
-- 🔗 Système de parrainage avec récompenses
-- 🖥️ Gestion de serveurs Pterodactyl
-- 📊 Dashboard des statistiques
+| Metric | Count |
+|--------|-------|
+| ⭐ **Stars** | ![GitHub stars](https://img.shields.io/github/stars/Nox-Primeee/TeleGram-Bot?style=social) |
+| 🍴 **Forks** | ![GitHub forks](https://img.shields.io/github/forks/Nox-Primeee/TeleGram-Bot?style=social) |
+| 👁️ **Watchers** | ![GitHub watchers](https://img.shields.io/github/watchers/Nox-Primeee/TeleGram-Bot?style=social) |
+| 📁 **Repository Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/TeleGram-Bot) |
+| 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot) |
+| 👥 **Contributors** | ![GitHub contributors](https://img.shields.io/github/contributors/Nox-Primeee/TeleGram-Bot) |
+| 📝 **Open Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot) |
+| 📦 **Pull Requests** | ![GitHub pull requests](https://img.shields.io/github/issues-pr/Nox-Primeee/TeleGram-Bot) |
+| 🚦 **CI/CD Status** | ![GitHub Actions](https://img.shields.io/github/actions/workflow/status/Nox-Primeee/TeleGram-Bot/ci.yml?branch=main) |
 
-## Installation
+</div>
 
-1. Clonez le repository
-2. Installez les dépendances : `npm install`
-3. Configurez le fichier `.env`
-4. Lancez le bot : `npm run dev`
+---
 
-## Commandes
+## 👥 Repository Visitors
 
-- `/start` - Démarrer le bot
-- `/balance` - Voir son solde
-- `/referral` - Obtenir son code de parrainage
-- `/create` - Créer un serveur
-- `/help` - Aide
+<div align="center">
+  <img src="https://profile-counter.glitch.me/Nox-Primeee/count.svg" alt="Visitor Count">
+</div>
 
-## Technologies
+---
 
-- Node.js / TypeScript
-- Telegraf
-- MongoDB / Mongoose
-- Pterodactyl API
+## 📋 Table of Contents
 
-# Initialiser votre repository
-```
-git init
-git add .
-git commit -m "Initial commit with bot structure"
-git remote add origin https://github.com/Nox-Primeee/TeleGram-Bot.git
-git branch -M main
-git push -u origin main```
+- [📊 Repository Statistics](#-repository-statistics)
+- [👥 Repository Visitors](#-repository-visitors)
+- [🌟 Features](#-features)
+- [🖼️ Screenshots](#️-screenshots)
+- [🚀 Quick Start](#-quick-start)
+- [📦 Installation](#-installation)
+- [⚙️ Configuration](#️-configuration)
+- [📝 Commands](#-commands)
+- [💰 Coin System](#-coin-system)
+- [🔗 Referral System](#-referral-system)
+- [👑 Admin Panel](#-admin-panel)
+- [🛠️ Technologies](#️-technologies)
+- [📁 Project Structure](#-project-structure)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [📞 Support](#-support)
 
+---
 
+## 🌟 Features
 
-## 🔑 Variables d'environnement
+### 🤖 Core Features
+- ✅ **User Management** with MongoDB database
+- ✅ **Coin System** with transactions history
+- ✅ **Referral Program** with bonus rewards
+- ✅ **Pterodactyl Server Management**
+- ✅ **Inline Keyboard** for easy navigation
+- ✅ **Rich Formatting** with HTML parsing
+- ✅ **Quote Styling** for every message
+- ✅ **Custom Logo** displayed with each command
 
-**.env**
-```env
-# Telegram
-BOT_TOKEN=your_bot_token_here
+### 🎯 Advanced Features
+- 🔒 **Secure Authentication** with user sessions
+- 📊 **Real-time Statistics** and analytics
+- 👑 **Admin Panel** with full control
+- 📈 **Transaction History** tracking
+- 🎮 **Multiple Server Types** (Minecraft, Web, Game)
+- 🌍 **Multi-language** support ready
+- 🚀 **High Performance** with TypeScript
 
-# Pterodactyl
-PTERODACTYL_URL=https://your-panel.com
-PTERODACTYL_API_KEY=your_api_key_here
+### 🔐 Security Features
+- 🛡️ **Rate Limiting** to prevent spam
+- 🔑 **API Key Protection** for Pterodactyl
+- 📝 **Activity Logging** with Winston
+- 🛑 **Error Handling** with graceful recovery
 
-# Database
-MONGODB_URI=mongodb://localhost:27017/bot_db
+---
 
-# Coins settings
-STARTING_COINS=100
-COINS_PER_REFERRAL=50
-COINS_PER_SERVER=10
-SERVER_COST=200
+## 🖼️ Screenshots
+
+<div align="center">
+  
+### Welcome Screen
+![Welcome Screen](https://files.catbox.moe/cqk5ac.jpg)
+
+### Main Menu
+![Main Menu](https://files.catbox.moe/cqk5ac.jpg)
+
+### Admin Panel
+![Admin Panel](https://files.catbox.moe/cqk5ac.jpg)
+
+### Coin System
+![Coin System](https://files.catbox.moe/cqk5ac.jpg)
+
+</div>
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Nox-Primeee/TeleGram-Bot.git
+
+# Navigate to project directory
+cd TeleGram-Bot
+
+# Install dependencies
+npm install
+
+# Configure environment variables
+cp .env.example .env
+
+# Start the bot
+npm run dev
