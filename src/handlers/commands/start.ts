@@ -1,9 +1,13 @@
 import { Context } from 'telegraf';
 import User from '../../database/models/User';
 import { ReferralService } from '../../services/referral/ReferralService';
+import { CoinService } from '../../services/coin/CoinService';
+import { formatQuote, formatWithLogo, formatBold } from '../../utils/formatter';
+import { mainKeyboard } from '../../utils/keyboard';
 import { config } from '../../config';
 
 const referralService = new ReferralService();
+const coinService = new CoinService();
 
 export async function startCommand(ctx: Context) {
   const user = ctx.from!;
@@ -11,11 +15,9 @@ export async function startCommand(ctx: Context) {
   const args = text.split(' ');
   const referralCode = args[1];
 
-  // Vérifier si l'utilisateur existe
   let existingUser = await User.findOne({ telegramId: user.id });
 
   if (!existingUser) {
-    // Créer un nouvel utilisateur
     const newUser = new User({
       telegramId: user.id,
       username: user.username,
@@ -27,25 +29,48 @@ export async function startCommand(ctx: Context) {
 
     await newUser.save();
 
-    // Traiter le parrainage si un code est fourni
+    let message = `<b> ${config.BOT_NAME}</b>\n\n`;
+    message += `👤 User: ${formatBold(user.first_name)}\n`;
+    message += `💰 Balance :${config.STARTING_COINS} coins.\n Support: @nox_chh\n\n`;
+    message += ` <b>COMMANDS</b>\n`;
+    message += `• /balance\n`;
+    message += `• /create \n`;
+    message += `• /referral \n`;
+    message += `• /help `;
+
     if (referralCode) {
       try {
         const result = await referralService.processReferral(user.id, referralCode);
-        await ctx.reply(
-          `🎉 Bienvenue ! Vous avez été parrainé par un autre utilisateur.\n` +
-          `💰 Vous recevez ${config.STARTING_COINS} coins de bienvenue !`
-        );
+        message += `\n\n🎉 <b>New User Referrals!</b>\n`;
+        message += `💰 You receive ${config.STARTING_COINS} cois\n`;
+        message += ` Your Refer Receive: ${config.COINS_PER_REFERRAL} coins.`;
       } catch (error) {
-        await ctx.reply(`⚠️ Erreur lors du parrainage: ${error.message}`);
+        message += `\n\n⚠️ Error: ${error.message}`;
       }
-    } else {
-      await ctx.reply(
-        `👋 Bienvenue ${user.first_name} !\n\n` +
-        `💰 Vous avez reçu ${config.STARTING_COINS} coins de bienvenue.\n` +
-        `📝 Utilisez /help pour voir les commandes disponibles.`
-      );
     }
+
+    await ctx.replyWithPhoto(
+      { url: config.LOGO_URL },
+      {
+        caption: formatQuote(message),
+        parse_mode: 'HTML',
+        ...mainKeyboard
+      }
+    );
   } else {
-    await ctx.reply(`👋 Bonjour ${user.first_name} ! Bienvenue à nouveau.`);
+    const balance = await coinService.getBalance(user.id);
+    let message = `<b>User: ${user.first_name} !</b>\n\n`;
+    message += `💰 Balance: ${balance} coins\n`;
+    message += `🔗 Referral link: <code>${existingUser.referralCode}</code>\n\n`;
+    message += `Support: @nox_chh`;
+
+    await ctx.replyWithPhoto(
+      { url: config.LOGO_URL },
+      {
+        caption: formatQuote(message),
+        parse_mode: 'HTML',
+        ...mainKeyboard
+      }
+    );
   }
 }
