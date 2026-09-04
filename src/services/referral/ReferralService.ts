@@ -1,16 +1,14 @@
-import User from '../../database/models/User';
-import { CoinService } from '../coin/CoinService';
-import { config } from '../../config';
-import crypto from 'crypto';
+const crypto = require('crypto');
+const User = require('../../database/models/User');
+const CoinService = require('../coin/CoinService');
+const config = require('../../config');
 
-export class ReferralService {
-  private coinService: CoinService;
-
+class ReferralService {
   constructor() {
     this.coinService = new CoinService();
   }
 
-  generateReferralCode(telegramId: number): string {
+  generateReferralCode(telegramId) {
     return crypto
       .createHash('md5')
       .update(`${telegramId}-${Date.now()}`)
@@ -18,22 +16,18 @@ export class ReferralService {
       .substring(0, 8);
   }
 
-  async processReferral(newUserId: number, referrerCode: string) {
-    // Trouver le parrain par son code
+  async processReferral(newUserId, referrerCode) {
     const referrer = await User.findOne({ referralCode: referrerCode });
     if (!referrer) throw new Error('Invalid referral code');
 
-    // Vérifier que le nouveau user n'a pas déjà été parrainé
     const newUser = await User.findOne({ telegramId: newUserId });
     if (newUser?.referredBy) throw new Error('User already has a referrer');
 
-    // Mettre à jour le nouveau user
     await User.findOneAndUpdate(
       { telegramId: newUserId },
       { referredBy: referrer.telegramId }
     );
 
-    // Ajouter les coins au parrain
     await this.coinService.addCoins(
       referrer.telegramId,
       config.COINS_PER_REFERRAL,
@@ -41,7 +35,6 @@ export class ReferralService {
       'referral'
     );
 
-    // Ajouter à la liste des parrainages
     await User.findOneAndUpdate(
       { telegramId: referrer.telegramId },
       { $push: { referrals: newUserId } }
@@ -53,3 +46,5 @@ export class ReferralService {
     };
   }
 }
+
+module.exports = ReferralService;
