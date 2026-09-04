@@ -1,0 +1,27 @@
+# render.yaml
+services:
+  - type: web
+    name: nox-freepanel-bot
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: PTERODACTYL_URL
+        sync: false
+      - key: PTERODACTYL_API_KEY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: STARTING_COINS
+        value: 100
+      - key: COINS_PER_REFERRAL
+        value: 50
+      - key: SERVER_COST
+        value: 200
+      - key: ADMIN_ID
+        value: 8926614435
+      - key: NODE_ENV
+        value: production
