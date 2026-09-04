@@ -1,8 +1,8 @@
-import { Context } from 'telegraf';
-import { formatQuote, formatBold } from '../../utils/formatter';
-import { mainKeyboard } from '../../utils/keyboard';
+const { formatQuote, formatBold } = require('../../utils/formatter');
+const { mainKeyboard } = require('../../utils/keyboard');
+const config = require('../../config');
 
-export async function helpCommand(ctx: Context) {
+async function helpCommand(ctx) {
   let message = `❓ <b>Aide - ${config.BOT_NAME}</b>\n\n`;
   message += `<b>Commandes disponibles :</b>\n`;
   message += `📌 /start - Démarrer le bot\n`;
@@ -12,9 +12,9 @@ export async function helpCommand(ctx: Context) {
   message += `📊 /servers - Voir vos serveurs\n`;
   message += `❓ /help - Cette aide\n\n`;
   message += `<b>Système de coins :</b>\n`;
-  message += `🪙 200 coins = 1 serveur\n`;
-  message += `👥 50 coins par parrainage\n`;
-  message += `🎁 100 coins de bienvenue\n\n`;
+  message += `🪙 ${config.SERVER_COST} coins = 1 serveur\n`;
+  message += `👥 ${config.COINS_PER_REFERRAL} coins par parrainage\n`;
+  message += `🎁 ${config.STARTING_COINS} coins de bienvenue\n\n`;
   message += `📞 Support : @Nox-primeee`;
 
   await ctx.replyWithPhoto(
@@ -26,3 +26,5 @@ export async function helpCommand(ctx: Context) {
     }
   );
 }
+
+module.exports = { helpCommand };
