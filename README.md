@@ -10,6 +10,12 @@
   [![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
   [![MongoDB](https://img.shields.io/badge/MongoDB-8.0.0-brightgreen?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
   [![Pterodactyl](https://img.shields.io/badge/Pterodactyl-1.0-orange?style=for-the-badge&logo=pterodactyl)](https://pterodactyl.io/)
+  <!-- Dans README.md -->
+<div align="center">
+  
+  ![Visitor Count](https://profile-counter.glitch.me/Nox-Primeee/count.svg)
+  
+</div>
   <!-- En haut du README.md -->
 <div align="center">
   
@@ -32,10 +38,20 @@
 
 | Metric | Count |
 |--------|-------|
-| ⭐ **Stars** | ![GitHub stars](https://img.shields.io/github/stars/Nox-Primeee/TeleGram-Bot?style=social) |
-| 🍴 **Forks** | ![GitHub forks](https://img.shields.io/github/forks/Nox-Primeee/TeleGram-Bot?style=social) |
-| 👁️ **Watchers** | ![GitHub watchers](https://img.shields.io/github/watchers/Nox-Primeee/TeleGram-Bot?style=social) |
-| 📁 **Repository Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/TeleGram-Bot) |
+<!-- Dans README.md -->
+<div align="center">
+  
+  | **Statistic** | **Value** |
+  |--------------|-----------|
+  | ⭐ **Stars** | ![GitHub stars](https://img.shields.io/github/stars/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  | 🍴 **Forks** | ![GitHub forks](https://img.shields.io/github/forks/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  | 👁️ **Watchers** | ![GitHub watchers](https://img.shields.io/github/watchers/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  | 📝 **Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  | 📦 **Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  | 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot?style=flat-square) |
+  
+</div> |
+
 | 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot) |
 | 👥 **Contributors** | ![GitHub contributors](https://img.shields.io/github/contributors/Nox-Primeee/TeleGram-Bot) |
 | 📝 **Open Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot) |
