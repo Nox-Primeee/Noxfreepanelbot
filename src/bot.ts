@@ -1,5 +1,6 @@
 import { Telegraf, session } from 'telegraf';
 import mongoose from 'mongoose';
+import express from 'express';
 import dotenv from 'dotenv';
 import { config } from './config';
 
@@ -24,7 +25,10 @@ bot.use(session());
 
 // Middleware pour logger
 bot.use(async (ctx, next) => {
-  console.log(`📝 ${ctx.from?.first_name} (${ctx.from?.id}) a utilisé ${ctx.message?.text || ctx.callbackQuery?.data}`);
+  // ✅ CORRIGÉ - Vérification des propriétés
+  const message = ctx.message ? (ctx.message as any).text : 'callback';
+  const userId = ctx.from?.id || 'unknown';
+  console.log(`📝 ${userId} a utilisé: ${message}`);
   await next();
 });
 
@@ -46,7 +50,7 @@ bot.command('addcoins', addCoinsCommand);
 bot.command('adminusers', adminUsers);
 bot.command('admincoins', adminCoins);
 
-// Callbacks pour les boutons
+// Callbacks
 bot.action('balance', async (ctx) => {
   await ctx.answerCbQuery();
   await balanceCommand(ctx);
@@ -109,6 +113,8 @@ bot.action('admin_coins', async (ctx) => {
 
 bot.action('share_referral', async (ctx) => {
   await ctx.answerCbQuery();
+  // ✅ CORRIGÉ - User est importé
+  const User = require('./database/models/User').default;
   const user = await User.findOne({ telegramId: ctx.from!.id });
   if (user) {
     await ctx.reply(
@@ -118,10 +124,22 @@ bot.action('share_referral', async (ctx) => {
   }
 });
 
-// Connexion à MongoDB
+// Connexion MongoDB
 mongoose.connect(config.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// Serveur Express pour Render
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('🤖 NOX FREEPANEL BOT is running!');
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Web server running on port ${PORT}`);
+});
 
 // Lancement du bot
 bot.launch()
