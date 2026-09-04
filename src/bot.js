@@ -1,47 +1,47 @@
-import { Telegraf, session } from 'telegraf';
-import mongoose from 'mongoose';
-import express from 'express';
-import dotenv from 'dotenv';
-import { config } from './config';
+const { Telegraf, session } = require('telegraf');
+const mongoose = require('mongoose');
+const express = require('express');
+require('dotenv').config();
+
+const config = require('./config');
 
 // Commandes
-import { startCommand } from './handlers/commands/start';
-import { balanceCommand } from './handlers/commands/balance';
-import { referralCommand } from './handlers/commands/referral';
-import { createCommand, createServerType } from './handlers/commands/create';
-import { helpCommand } from './handlers/commands/help';
-import { adminCommand, adminUsers, adminCoins, addCoinsCommand } from './handlers/commands/admin';
+const { startCommand } = require('./handlers/commands/start');
+const { balanceCommand } = require('./handlers/commands/balance');
+const { referralCommand } = require('./handlers/commands/referral');
+const { createCommand, createServerType } = require('./handlers/commands/create');
+const { helpCommand } = require('./handlers/commands/help');
+const { adminCommand, adminUsers, adminCoins, addCoinsCommand } = require('./handlers/commands/admin');
 
 // Utilitaires
-import { formatQuote } from './utils/formatter';
-import { mainKeyboard } from './utils/keyboard';
+const { formatQuote } = require('./utils/formatter');
+const { mainKeyboard } = require('./utils/keyboard');
 
-dotenv.config();
-
+// Initialisation du bot
 const bot = new Telegraf(config.BOT_TOKEN);
 
-// Middleware de session
+// Middleware
 bot.use(session());
 
-// Middleware pour logger
+// Logger
 bot.use(async (ctx, next) => {
-  // ✅ CORRIGÉ - Vérification des propriétés
-  const message = ctx.message ? (ctx.message as any).text : 'callback';
-  const userId = ctx.from?.id || 'unknown';
-  console.log(`📝 ${userId} a utilisé: ${message}`);
+  const text = ctx.message?.text || 'callback';
+  console.log(`📝 ${ctx.from?.first_name} (${ctx.from?.id}) a utilisé: ${text}`);
   await next();
 });
 
-// Commandes
+// === COMMANDES ===
 bot.start(startCommand);
 bot.command('balance', balanceCommand);
 bot.command('referral', referralCommand);
 bot.command('create', createCommand);
 bot.command('help', helpCommand);
+
 bot.command('servers', async (ctx) => {
-  await ctx.reply(formatQuote('📊 <b>Vos serveurs</b>\n\nFonctionnalité en cours de développement...'), 
-    { parse_mode: 'HTML', ...mainKeyboard }
-  );
+  await ctx.reply(formatQuote('📊 <b>Vos serveurs</b>\n\nFonctionnalité en cours de développement...'), {
+    parse_mode: 'HTML',
+    ...mainKeyboard
+  });
 });
 
 // Commandes admin
@@ -50,7 +50,7 @@ bot.command('addcoins', addCoinsCommand);
 bot.command('adminusers', adminUsers);
 bot.command('admincoins', adminCoins);
 
-// Callbacks
+// === CALLBACKS ===
 bot.action('balance', async (ctx) => {
   await ctx.answerCbQuery();
   await balanceCommand(ctx);
@@ -113,9 +113,8 @@ bot.action('admin_coins', async (ctx) => {
 
 bot.action('share_referral', async (ctx) => {
   await ctx.answerCbQuery();
-  // ✅ CORRIGÉ - User est importé
-  const User = require('./database/models/User').default;
-  const user = await User.findOne({ telegramId: ctx.from!.id });
+  const User = require('./database/models/User');
+  const user = await User.findOne({ telegramId: ctx.from.id });
   if (user) {
     await ctx.reply(
       formatQuote(`🔗 <b>Partagez votre lien :</b>\n\nhttps://t.me/${ctx.botInfo.username}?start=${user.referralCode}`),
@@ -124,12 +123,12 @@ bot.action('share_referral', async (ctx) => {
   }
 });
 
-// Connexion MongoDB
+// === MONGODB ===
 mongoose.connect(config.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .catch(err => console.error('❌ MongoDB error:', err));
 
-// Serveur Express pour Render
+// === SERVEUR EXPRESS (pour Render) ===
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -141,7 +140,7 @@ app.listen(PORT, () => {
   console.log(`✅ Web server running on port ${PORT}`);
 });
 
-// Lancement du bot
+// === LANCEMENT DU BOT ===
 bot.launch()
   .then(() => {
     console.log(`🤖 ${config.BOT_NAME} started successfully!`);
@@ -149,7 +148,7 @@ bot.launch()
   })
   .catch(err => console.error('❌ Bot error:', err));
 
-// Gestion des arrêts
+// === GESTION DES ARRÊTS ===
 process.once('SIGINT', () => {
   bot.stop('SIGINT');
   mongoose.disconnect();
@@ -161,4 +160,4 @@ process.once('SIGTERM', () => {
   console.log('🛑 Bot stopped');
 });
 
-export default bot;
+module.exports = bot;
