@@ -34,3 +34,12 @@ Un bot Telegram pour gérer un panel Pterodactyl avec système de coins et parra
 - Telegraf
 - MongoDB / Mongoose
 - Pterodactyl API
+
+# Initialiser votre repository
+```
+git init
+git add .
+git commit -m "Initial commit with bot structure"
+git remote add origin https://github.com/Nox-Primeee/TeleGram-Bot.git
+git branch -M main
+git push -u origin main```
