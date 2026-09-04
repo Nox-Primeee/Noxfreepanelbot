@@ -1,19 +1,26 @@
-FROM node:20-alpine
+# Dockerfile
+FROM node:18-alpine
 
+# Créer le répertoire de travail
 WORKDIR /app
 
-# Install dependencies
+# Copier les fichiers package
 COPY package*.json ./
-RUN npm ci --production
 
-# Copy source code
-COPY dist/ ./dist/
-COPY .env.example ./.env
+# Installer les dépendances
+RUN npm install --legacy-peer-deps
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
-USER nodejs
+# Copier le reste du code
+COPY . .
 
-# Start the bot
-CMD ["node", "dist/bot.js"]
+# Build le projet TypeScript
+RUN npm run build
+
+# Supprimer les fichiers source pour réduire la taille
+RUN rm -rf src/
+
+# Exposer le port (pour l'API web optionnelle)
+EXPOSE 3000
+
+# Démarrer le bot
+CMD ["npm", "start"]
