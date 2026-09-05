@@ -5,12 +5,14 @@ const UserSchema = new mongoose.Schema({
   username: { type: String },
   firstName: { type: String, required: true },
   lastName: { type: String },
-  coins: { type: Number, default: 20 },
+  coins: { type: Number, default: 100 },
   referralCode: { type: String, required: true, unique: true },
   referredBy: { type: Number },
   referrals: [{ type: Number }],
-  plan: { type: String, default: 'FREE' }, // ✅ AJOUTÉ
-  lastDaily: { type: Date, default: null } // ✅ AJOUTÉ
-}, { timestamps: true });
+  plan: { type: String, default: 'FREE' }, // FREE, PREMIUM, VIP, OWNER
+  lastDaily: { type: Date, default: null },
+  joinedChannels: [{ type: String }], // IDs des canaux rejoints
+  createdAt: { type: Date, default: Date.now }
+});
 
 module.exports = mongoose.model('User', UserSchema);
