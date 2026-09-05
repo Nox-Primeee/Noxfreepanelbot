@@ -86,9 +86,9 @@ cp .env.example .env
 npm start
 ```
 ---
-## Deployment On Heroku
+# Deployment On Heroku
 
-# Install Heroku CLI and login
+```# Install Heroku CLI and login
 heroku login
 
 # Create a new app
@@ -102,3 +102,4 @@ git push heroku main
 
 # Start the worker
 heroku ps:scale worker=1
+```
