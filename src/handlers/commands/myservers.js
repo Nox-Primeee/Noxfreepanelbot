@@ -1,6 +1,6 @@
 const Server = require('../../database/models/Server');
 const { formatQuote, formatBold } = require('../../utils/formatter');
-const { serverKeyboard } = require('../../utils/keyboard');
+const { Markup } = require('telegraf');
 
 async function myserversCommand(ctx) {
   try {
@@ -10,9 +10,8 @@ async function myserversCommand(ctx) {
       await ctx.replyWithPhoto(
         { url: config.LOGO_URL },
         {
-          caption: formatQuote('📋 <b>You have no servers yet.</b>\n\nUse /buyserver to create one.'),
-          parse_mode: 'HTML',
-          ...serverKeyboard
+          caption: formatQuote('📋 <b>You have no servers.</b>\n\nUse /buyserver to create one.'),
+          parse_mode: 'HTML'
         }
       );
       return;
@@ -22,17 +21,26 @@ async function myserversCommand(ctx) {
     servers.forEach((server, i) => {
       message += `${i + 1}. 🖥️ ${server.name}\n`;
       message += `   📦 Type: ${server.type}\n`;
-      message += `   💾 RAM: ${server.memory}MB\n`;
-      message += `   📊 Status: ${server.status}\n`;
-      message += `   🆔 ID: ${server.serverId}\n\n`;
+      message += `   💾 RAM: ${server.ram}MB\n`;
+      message += `   ⏰ Duration: ${server.duration}\n`;
+      message += `   👤 User: <code>${server.username}</code>\n`;
+      message += `   🔑 Pass: <code>${server.password}</code>\n`;
+      message += `   🌐 ${server.domain}\n`;
+      message += `   📅 Expires: ${server.expiresAt.toLocaleDateString()}\n`;
+      message += `   📊 Status: ${server.status}\n\n`;
     });
+
+    const keyboard = Markup.inlineKeyboard([
+      [Markup.button.callback('🔄 Refresh', 'myservers')],
+      [Markup.button.callback('🔙 Back', 'back_main')]
+    ]);
 
     await ctx.replyWithPhoto(
       { url: config.LOGO_URL },
       {
         caption: formatQuote(message),
         parse_mode: 'HTML',
-        ...serverKeyboard
+        ...keyboard
       }
     );
   } catch (error) {
