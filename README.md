@@ -4,7 +4,7 @@
   # NOX FREEPANEL BOT SCRIPT OPEN SOURCE 
   
   [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue?style=for-the-badge&logo=telegram)](https://t.me/NoxFreepanelBot)
-  [![Version](https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge)](https://github.com/Nox-Primeee/TeleGram-Bot/releases)
+  [![Version](https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge)](https://github.com/Nox-Primeee/NoxFreepanelBot/releases)
   [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
   [![Node.js](https://img.shields.io/badge/Node.js-18.x-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
   [![MongoDB](https://img.shields.io/badge/MongoDB-8.0-brightgreen?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
@@ -24,14 +24,14 @@
 
 | Metric | Count |
 |--------|-------|
-| ⭐ **Stars** | ![GitHub stars](https://img.shields.io/github/stars/Nox-Primeee/TeleGram-Bot?style=social) |
-| 🍴 **Forks** | ![GitHub forks](https://img.shields.io/github/forks/Nox-Primeee/TeleGram-Bot?style=social) |
-| 👁️ **Watchers** | ![GitHub watchers](https://img.shields.io/github/watchers/Nox-Primeee/TeleGram-Bot?style=social) |
-| 📁 **Repository Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/TeleGram-Bot) |
-| 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/TeleGram-Bot) |
-| 👥 **Contributors** | ![GitHub contributors](https://img.shields.io/github/contributors/Nox-Primeee/TeleGram-Bot) |
-| 📝 **Open Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/TeleGram-Bot) |
-| 📦 **Pull Requests** | ![GitHub pull requests](https://img.shields.io/github/issues-pr/Nox-Primeee/TeleGram-Bot) |
+| ⭐ **Stars** | ![GitHub stars](https://img.shields.io/github/stars/Nox-Primeee/NoxFreepanelBot?style=social) |
+| 🍴 **Forks** | ![GitHub forks](https://img.shields.io/github/forks/Nox-Primeee/NoxFreepanelBot?style=social) |
+| 👁️ **Watchers** | ![GitHub watchers](https://img.shields.io/github/watchers/Nox-Primeee/NoxFreepanelBot?style=social) |
+| 📁 **Repository Size** | ![GitHub repo size](https://img.shields.io/github/repo-size/Nox-Primeee/NoxFreepanelBot) |
+| 🕒 **Last Commit** | ![GitHub last commit](https://img.shields.io/github/last-commit/Nox-Primeee/NoxFreepanelBot) |
+| 👥 **Contributors** | ![GitHub contributors](https://img.shields.io/github/contributors/Nox-Primeee/NoxFreepanelBot) |
+| 📝 **Open Issues** | ![GitHub issues](https://img.shields.io/github/issues/Nox-Primeee/NoxFreepanelBot) |
+| 📦 **Pull Requests** | ![GitHub pull requests](https://img.shields.io/github/issues-pr/Nox-Primeee/noxfreepanelbot) |
 
 </div>
 
