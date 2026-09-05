@@ -86,20 +86,4 @@ cp .env.example .env
 npm start
 ```
 ---
-# Deployment On Heroku
-
-```# Install Heroku CLI and login
-heroku login
-
-# Create a new app
-heroku create nox-freepanel-bot
-
-# Set environment variables
-heroku config:set BOT_TOKEN=xxx ADMIN_ID=xxx MONGODB_URI=xxx
-
-# Deploy
-git push heroku main
-
-# Start the worker
-heroku ps:scale worker=1
-```
+<sub>© 🌹🝛꯭𝐈𝛕ᷟ𝚣⃪ꙴ 𝐍𝚯𝐗 𝚯𝐅𝐅𝚰𝐂𝐈𝚫𝐋🧸 — FREEPANEL BOT SCRIPT</sub>
