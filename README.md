@@ -86,4 +86,4 @@ cp .env.example .env
 npm start
 ```
 ---
-<sub>© 🌹🝛꯭𝐈𝛕ᷟ𝚣⃪ꙴ 𝐍𝚯𝐗 𝚯𝐅𝐅𝚰𝐂𝐈𝚫𝐋🧸 — FREEPANEL BOT SCRIPT</sub>
+<sub>©NOX PRIMEEE DEV — FREEPANEL BOT SCRIPT</sub>
