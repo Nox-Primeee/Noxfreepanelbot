@@ -1,4 +1,3 @@
-// src/bot.js
 const { Telegraf, session } = require('telegraf');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -17,7 +16,7 @@ const { referralCommand } = require('./handlers/commands/referral');
 const { statsCommand } = require('./handlers/commands/stats');
 const { helpCommand } = require('./handlers/commands/help');
 const { myidCommand } = require('./handlers/commands/myid');
-const { buyserverCommand, buyServerType } = require('./handlers/commands/buyserver');
+const { buyserverCommand, buyServerType, handleBuyAction } = require('./handlers/commands/buyserver');
 const { myserversCommand } = require('./handlers/commands/myservers');
 const { purchaseCommand } = require('./handlers/commands/purchase');
 const { upgradeCommand } = require('./handlers/commands/upgrade');
@@ -175,12 +174,7 @@ bot.action('server_owner', async (ctx) => {
 // --- Achat de serveur personnalisé (RAM/durée) ---
 bot.action(/buy_(\d+)_(\w+)_(\d+)/, async (ctx) => {
   const [_, ram, duration, price] = ctx.match;
-  // Cette logique est déjà gérée dans buyserver.js
-  // On redirige vers la fonction d'achat
   await ctx.answerCbQuery();
-  // On peut appeler directement le service, mais on va utiliser le callback du fichier buyserver
-  // Pour simplifier, on va importer la fonction depuis buyserver.js
-  const { handleBuyAction } = require('./handlers/commands/buyserver');
   await handleBuyAction(ctx, parseInt(ram), duration, parseInt(price));
 });
 
@@ -259,6 +253,14 @@ bot.action('buy_premium', async (ctx) => {
 bot.action('buy_vip', async (ctx) => {
   await ctx.answerCbQuery();
   await buyServerType(ctx, 'vip');
+});
+
+// --- Copier identifiants ---
+bot.action(/copy_(.+)/, async (ctx) => {
+  const text = ctx.match[1];
+  await ctx.answerCbQuery(`✅ Copied: ${text}`);
+  // On envoie le texte dans un message pour que l'utilisateur puisse le copier
+  await ctx.reply(`📋 <code>${text}</code>`, { parse_mode: 'HTML' });
 });
 
 // --- Retour ---
