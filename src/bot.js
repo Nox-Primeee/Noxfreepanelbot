@@ -4,7 +4,15 @@ const express = require('express');
 require('dotenv').config();
 
 const config = require('./config');
+const { checkChannel } = require('./middleware/checkChannel');
 
+// Appliquer à toutes les commandes sauf /start et /verify
+bot.use(async (ctx, next) => {
+  if (ctx.message?.text?.startsWith('/start') || ctx.message?.text?.startsWith('/verify')) {
+    return next();
+  }
+  await checkChannel(ctx, next);
+});
 // Commands
 const { menuCommand } = require('./handlers/commands/menu');
 const { coinsCommand } = require('./handlers/commands/coins');
