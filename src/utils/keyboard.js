@@ -39,7 +39,7 @@ const serverKeyboard = Markup.inlineKeyboard([
   ],
   [
     Markup.button.callback(' My Servers', 'myservers'),
-    Markup.button.callback('🔙 Back', 'back_main',style:)
+    Markup.button.callback('🔙 Back', 'back_main')
   ]
 ]);
 
