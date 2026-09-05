@@ -1,5 +1,7 @@
 const CoinService = require('../../services/coin/CoinService');
 const ServerService = require('../../services/server/ServerService');
+const User = require('../../database/models/User');
+const Server = require('../../database/models/Server');
 const { formatQuote, formatBold } = require('../../utils/formatter');
 const { Markup } = require('telegraf');
 const config = require('../../config');
@@ -51,7 +53,6 @@ async function buyserverCommand(ctx) {
     message += `🖥️ Servers: ${await Server.countDocuments({ userId: ctx.from.id })}/${config.PLANS[plan]?.servers || 1}\n\n`;
     message += `<b>Choose your RAM and duration:</b>`;
 
-    // Créer des boutons dynamiques selon le plan
     const planKey = plan.toLowerCase();
     const available = PLANS[planKey] || PLANS.free;
 
@@ -62,7 +63,6 @@ async function buyserverCommand(ctx) {
       )
     );
 
-    // Regrouper par 2
     const keyboard = [];
     for (let i = 0; i < buttons.length; i += 2) {
       keyboard.push(buttons.slice(i, i + 2));
@@ -82,44 +82,40 @@ async function buyserverCommand(ctx) {
   }
 }
 
-// Action callback pour acheter
-bot.action(/buy_(\d+)_(\w+)_(\d+)/, async (ctx) => {
-  const [_, ram, duration, price] = ctx.match;
-  const userId = ctx.from.id;
-
+async function buyServerType(ctx, type) {
   try {
+    const userId = ctx.from.id;
     const balance = await coinService.getBalance(userId);
-    if (balance < parseInt(price)) {
-      await ctx.answerCbQuery('❌ Insufficient coins!');
+    const plan = config.PLANS[type.toUpperCase()];
+
+    if (!plan) {
+      await ctx.reply(formatQuote('❌ Invalid plan.'));
       return;
     }
 
-    // Créer le serveur
-    const server = await serverService.createServer(
-      userId,
-      'free', // ou selon le plan
-      parseInt(ram),
-      duration,
-      parseInt(price)
-    );
+    const canCreate = await serverService.canCreateServer(userId);
+    if (!canCreate.allowed) {
+      await ctx.reply(formatQuote(`⚠️ ${canCreate.reason}`));
+      return;
+    }
 
-    // Déduire les coins
-    await coinService.spendCoins(userId, parseInt(price), `Server ${ram}MB ${duration}`);
+    if (balance < plan.price) {
+      await ctx.reply(formatQuote(`⚠️ Insufficient balance!\n💰 Price: ${plan.price} coins\n🪙 Your balance: ${balance}`));
+      return;
+    }
 
-    // Message de succès avec les identifiants
-    let message = `✅ <b>Server created!</b>\n\n`;
+    const server = await serverService.createServer(userId, type, plan);
+    await coinService.spendCoins(userId, plan.price, `Server purchase ${type}`);
+
+    let message = `✅ <b>${type.charAt(0).toUpperCase() + type.slice(1)} server created!</b>\n\n`;
     message += `🆔 ID: ${server.serverId}\n`;
     message += `📛 Name: ${server.name}\n`;
-    message += `💾 RAM: ${server.ram}MB\n`;
-    message += `⏰ Duration: ${server.duration}\n`;
-    message += `💰 Price: ${server.price} coins\n`;
-    message += `👤 Username: <code>${server.username}</code>\n`;
-    message += `🔑 Password: <code>${server.password}</code>\n`;
-    message += `🌐 Domain: ${server.domain}\n`;
-    message += `📅 Expires: ${server.expiresAt.toLocaleDateString()}\n\n`;
-    message += `💰 Remaining: ${await coinService.getBalance(userId)} coins`;
+    message += `💾 RAM: ${plan.memory}MB\n`;
+    message += `📦 Plan: ${plan.name}\n`;
+    message += `📊 Status: ${server.status}\n`;
+    message += `⏰ Expires: ${server.expiresAt.toLocaleDateString()}\n`;
+    message += `💰 Remaining coins: ${await coinService.getBalance(userId)}`;
 
-    // Boutons pour copier/coller et ouvrir
     const actionKeyboard = Markup.inlineKeyboard([
       [
         Markup.button.callback('📋 Copy Username', `copy_${server.username}`),
@@ -139,12 +135,102 @@ bot.action(/buy_(\d+)_(\w+)_(\d+)/, async (ctx) => {
         ...actionKeyboard
       }
     );
+  } catch (error) {
+    await ctx.reply(formatQuote(`❌ Purchase error: ${error.message}`));
+  }
+}
+
+// ========== GESTIONNAIRE D'ACHAT POUR LES BOUTONS ==========
+async function handleBuyAction(ctx, ram, duration, price) {
+  const userId = ctx.from.id;
+
+  try {
+    const balance = await coinService.getBalance(userId);
+    if (balance < parseInt(price)) {
+      await ctx.answerCbQuery('❌ Insufficient coins!');
+      return;
+    }
+
+    // Vérifier le plan de l'utilisateur
+    const user = await User.findOne({ telegramId: userId });
+    if (!user) {
+      await ctx.answerCbQuery('❌ User not found');
+      return;
+    }
+
+    const plan = user.plan || 'FREE';
+    const planKey = plan.toLowerCase();
+
+    // Vérifier que la RAM/durée est disponible pour ce plan
+    const available = PLANS[planKey] || PLANS.free;
+    const valid = available.some(p => p.ram === ram && p.duration === duration && p.price === price);
+    if (!valid) {
+      await ctx.answerCbQuery('❌ This option is not available for your plan');
+      return;
+    }
+
+    // Vérifier le nombre max de serveurs
+    const canCreate = await serverService.canCreateServer(userId);
+    if (!canCreate.allowed) {
+      await ctx.answerCbQuery(`⚠️ ${canCreate.reason}`);
+      return;
+    }
+
+    // Créer le serveur
+    const server = await serverService.createServer(
+      userId,
+      planKey,
+      parseInt(ram),
+      duration,
+      parseInt(price),
+      plan
+    );
+
+    // Déduire les coins
+    await coinService.spendCoins(userId, parseInt(price), `Server ${ram}MB ${duration}`);
+
+    // Message de succès avec les identifiants
+    let message = `✅ <b>Server created!</b>\n\n`;
+    message += `🆔 ID: ${server.serverId}\n`;
+    message += `📛 Name: ${server.name}\n`;
+    message += `💾 RAM: ${server.ram}MB\n`;
+    message += `⏰ Duration: ${server.duration}\n`;
+    message += `💰 Price: ${server.price} coins\n`;
+    message += `👤 Username: <code>${server.username}</code>\n`;
+    message += `🔑 Password: <code>${server.password}</code>\n`;
+    message += `🌐 Domain: ${server.domain}\n`;
+    message += `📅 Expires: ${server.expiresAt.toLocaleDateString()}\n\n`;
+    message += `💰 Remaining: ${await coinService.getBalance(userId)} coins`;
+
+    const actionKeyboard = Markup.inlineKeyboard([
+      [
+        Markup.button.callback('📋 Copy Username', `copy_${server.username}`),
+        Markup.button.callback('📋 Copy Password', `copy_${server.password}`)
+      ],
+      [
+        Markup.button.url('🌐 Open Domain', `https://${server.domain}`),
+        Markup.button.callback('📋 My Servers', 'myservers')
+      ]
+    ]);
+
+    await ctx.replyWithPhoto(
+      { url: config.LOGO_URL },
+      {
+        caption: formatQuote(message),
+        parse_mode: 'HTML',
+        ...actionKeyboard
+      }
+    );
 
     await ctx.answerCbQuery('✅ Server created!');
   } catch (error) {
     await ctx.reply(formatQuote(`❌ Error: ${error.message}`));
     await ctx.answerCbQuery('❌ Creation failed');
   }
-});
+}
 
-module.exports = { buyserverCommand };
+module.exports = {
+  buyserverCommand,
+  buyServerType,
+  handleBuyAction
+};
