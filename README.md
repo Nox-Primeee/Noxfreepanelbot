@@ -16,7 +16,17 @@
     <i>with Coin System, Referral Program, Server Plans, and Advanced Admin Panel</i>
   </p>
 </div>
-
+## FOLLOW OWNER 
+<div align="center">
+  
+[![Telegram](https://img.shields.io/badge/Telegram-@noxprimeeeinc-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/noxprimeeeinc)
+[![Instagram](https://img.shields.io/badge/Instagram-@noxprimeeeinc-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/noxprimeeeinc)
+[![Twitter/X](https://img.shields.io/badge/Twitter-@noxprimeeeinc-000000?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/noxprimeeeinc)
+[![YouTube](https://img.shields.io/badge/YouTube-@noxprimeeeinc-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@noxprimeeeinc)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VbDIn9u47Xe6gf8JxP3c)
+[![GitHub](https://img.shields.io/badge/GitHub-Nox--Primeee-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nox-Primeee)
+  
+</div>
 ---
 
 ## 📊 Repository Statistics
