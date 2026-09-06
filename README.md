@@ -16,8 +16,8 @@
     <i>with Coin System, Referral Program, Server Plans, and Advanced Admin Panel</i>
   </p>
 </div>
-## FOLLOW OWNER 
-<div align="center">
+
+# FOLLOW DEVELOPER LINKS
   
 [![Telegram](https://img.shields.io/badge/Telegram-@noxprimeeeinc-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/noxprimeeeinc)
 [![Instagram](https://img.shields.io/badge/Instagram-@noxprimeeeinc-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/noxprimeeeinc)
