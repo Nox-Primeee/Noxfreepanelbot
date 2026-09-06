@@ -1,7 +1,7 @@
 const config = require('../config');
 
 function formatQuote(text) {
-  return `<blockquote>${text}</blockquote>`;
+  return `<b>${text}</b>`;
 }
 
 function formatBold(text) {
